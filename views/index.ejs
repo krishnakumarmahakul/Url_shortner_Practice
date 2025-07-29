@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL Shortener</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 8px;
+    }
+    table {
+      margin-top: 30px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>URL Shortener</h1>
+
+  <form action="/shorten" method="POST">
+    <input type="url" name="originalUrl" placeholder="Enter your URL" required />
+    <button type="submit">Shorten</button>
+  </form>
+
+  <% if (allUrls.length > 0) { %>
+    <h2>All Shortened URLs</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Original URL</th>
+          <th>Short URL</th>
+          <th>Clicks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% allUrls.forEach(url => { %>
+          <tr>
+            <td><%= url.originalUrl %></td>
+            <td>
+              <a href="/<%= url.shortId %>">
+                <%= request.headers.host %>/<%= url.shortId %>
+              </a>
+            </td>
+            <td><%= url.clicks %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+</body>
+</html>
