@@ -1,4 +1,4 @@
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 
 require("dotenv").config(); // ✅ Correct way to load .env variables
 
@@ -11,4 +11,4 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
-module.exports=connectDB;
+module.exports = connectDB;

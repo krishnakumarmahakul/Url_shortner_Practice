@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const Url = require("../models/url");
-const { v4: uuidv4 } = require('uuid');
-const {setUser}=require("../services/auth")
+const { v4: uuidv4 } = require("uuid");
+const { setUser } = require("../services/auth");
 async function handleUserSignup(req, res) {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
@@ -32,20 +32,19 @@ async function handleUserLogin(req, res) {
       res.status(400).render("badreq");
     }
 
-    const uid=uuidv4();
-    setUser(uid,validUser);
+    const uid = uuidv4();
+    setUser(uid, validUser);
 
-    validUser.uid=uid;
-   
+    validUser.uid = uid;
 
     res.cookie("uid", uid, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     });
 
-
-
-    const allUrls = await Url.find({ createdBy: validUser._id }).sort({ createdAt: -1 });
+    const allUrls = await Url.find({ createdBy: validUser._id }).sort({
+      createdAt: -1,
+    });
     return res.status(200).render("index", { allUrls });
   } catch (error) {
     console.log(error);

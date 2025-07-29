@@ -1,25 +1,18 @@
-const User=require("../models/user");
-const {getUser}=require("../services/auth")
+const User = require("../models/user");
+const { getUser } = require("../services/auth");
 
-exports.ensureAuth=async (req,res,next)=>{
+exports.ensureAuth = async (req, res, next) => {
+  const uid = req.cookies?.uid;
 
-    const uid=req.cookies?.uid;
+  if (!uid) {
+    return res.status(400).redirect("/login");
+  }
 
-    if (!uid) {
-       return res.status(400).redirect("/login");
+  const user = getUser(uid);
 
-        
-    }
-
-    const user=getUser(uid);
-
-    if (!user) {
-
-        return res.status(400).redirect("/login");
-        
-    }
-    req.user = user;
-    next()
-
-
-}
+  if (!user) {
+    return res.status(400).redirect("/login");
+  }
+  req.user = user;
+  next();
+};
